@@ -1,0 +1,286 @@
+{% extends 'user_account.html' %}
+
+{% block headpart %}
+
+<style>
+.addads-active {
+    overflow: hidden;
+    text-shadow: 0 5px 2px rgba(0,0,0,0.1);
+    color: #818181;
+    box-shadow: 5px 5px 20px rgba(55,84,170,0.11),-10px -10px 15px #ffffff, 2px 2px 2px rgba(255,255,255,0.5) inset, 4px 4px 4px rgba(0,0,0,0.1) inset,-4px -4px 4px rgba(255,255,255,0.8) inset;
+}
+</style>
+
+{% endblock %}
+
+{% block dashboard %}
+    {% load humanize %}
+    {% load static %}
+
+    <div class="main-message-box">
+        <div class="error-message">
+            <table style="text-align: center;width: 100%;">
+                <tr>
+                    <td>
+                        <img src="{% static 'images/genie.svg' %}" width="100px">
+                    </td>
+                </tr>
+                <th>
+                    <h5>You need to complete these tasks</h5>
+                </th>
+                <tr>
+                    <td>
+                        <h5 id="error-msg-text" class="list-error"></h5>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <button id="error-close" onclick="closeme()">OK</button>
+                    </td>
+                </tr>
+            </table>
+
+
+        </div>
+    </div>
+
+    <div class="ads-main-box">
+    <form method="post" action="{% url 'saveads' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <table cellspacing="20" style="position: relative;width: 500px;left: 50px">
+                <th colspan="2">
+                    <h1>Advertisement</h1>
+                    <h3>Come we will show you the magic of Advertisement</h3>
+                </th>
+                <tr>
+                    <th align="left" colspan="2" height="0px" style="vertical-align: bottom;font-family: 'Poppins Medium';color: rgba(0,0,0,0.29);transform: translateY(12px);">
+                        Select your product
+                    </th>
+                </tr>
+                <tr>
+                    <td colspan="2" style="vertical-align: bottom;">
+                        <select class="catdroplist" id="product-dropdown" onclick="calculatemoney()" name="productname">
+                            {% for p in products %}
+                            <option value="{{ p.id }}" style="font-family: 'Poppins';padding: 10px 20px;font-weight: bold;">{{ p.productname }}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th align="left" colspan="2" height="50px" style="vertical-align: bottom;font-family: 'Poppins Medium';color: rgba(0,0,0,0.29);transform: translateY(12px);">
+                        Select Date
+                    </th>
+                </tr>
+               <tr>
+                    <td align="left">
+                        <div class="input-box">
+                            <input type="date" id="ads-start-date" name="startingdate" autocomplete="off" onchange="selecttotaldate();" required class="ads-input">
+                            <label for="product-name" class="labelnamez">Choose Starting Date</label>
+                            <img class="input-calendar" src="{% static 'images/calendar.svg' %}">
+                        </div>
+                    <h5 id="total-days" style="position: absolute;display: flex;left: 30px;width: 500px;transform: translateY(10px);color: rgba(0,0,0,0.14);"></h5>
+                    </td>
+                    <td align="left" colspan="2">
+                        <div class="input-box">
+                            <input type="date" id="ads-end-date" name="endingdate" autocomplete="off" required class="ads-input" onchange="selecttotaldate();showrow2();">
+                            <label for="about" class="labelnamez">Choose Ending Date</label>
+                            <img class="input-calendar" src="{% static 'images/calendar.svg' %}">
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th align="left" height="70px" style="vertical-align: bottom;font-family: 'Poppins Medium';color: rgba(0,0,0,0.29);transform: translateY(12px);">Choose Layout</th>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <div class="layout-box">
+                            <div class="layout-wrap">
+                                <h4 class="ads-price">{{layouts.layout1price|intcomma }}/day</h4>
+                                <input type="radio" id="layout1" value="{{ layouts.layout1price }}" name="layout" required>
+                                <label for="layout1" class="layoutlabel" onclick="selecttotaldate();">
+                                <img src="{% static 'images/layout1.svg' %}" width="100px">
+                                    <h4 class="ads-size">1100<b>x</b>400</h4>
+                                </label>
+                            </div>
+
+                            <div class="layout-wrap">
+                                <h4 class="ads-price">{{ layouts.layout2price|intcomma }}/day</h4>
+                                <input type="radio" id="layout2" name="layout" value="{{ layouts.layout2price }}" required>
+                                <label for="layout2" class="layoutlabel" onclick="calculatemoney();">
+                                <img src="{% static 'images/layout2.svg' %}" width="100px">
+                                    <h4 class="ads-size">300<b>x</b>350</h4>
+                                </label>
+                            </div>
+
+                            <div class="layout-wrap">
+                                <h4 class="ads-price">{{ layouts.layout3price|intcomma }}/day</h4>
+                                <input type="radio" id="layout3" value="{{ layouts.layout3price }}" name="layout" required>
+                                <label for="layout3" class="layoutlabel" onclick="calculatemoney();">
+                                <img src="{% static 'images/layout3.svg' %}" width="100px">
+                                    <h4 class="ads-size">1100<b>x</b>50</h4>
+                                </label>
+                            </div>
+
+                        </div>
+                    </td>
+                </tr>
+
+                <th align="left" height="50px" style="vertical-align: bottom;font-family: 'Poppins Medium';color: rgba(0,0,0,0.29);transform: translateY(12px);">Now add your ads banner</th>
+                <tr>
+                    <td align="left" colspan="2" height="50px" style="vertical-align: bottom;position: relative;">
+                        <lable class="checkupload"></lable>
+                        <input type="file" name="imageFile" id="file-uploader" class="fileuploadbtn" required>
+                        <label for="file-uploader" class="upload-label">
+                            Select image
+                            <img src="{% static 'images/upload.svg' %}" class="upload-img">
+                        </label>
+                        <div class="preview-banner">
+                            <img src="" id="imageupload">
+                        </div>
+
+                    </td>
+                </tr>
+                <tr>
+                    <th align="right" height="50px" style="vertical-align: bottom;font-family: 'Poppins Medium';color: rgba(0,0,0,0.29);transform: translateY(12px);" colspan="2">
+                        Summary
+                        <input id="real-money" name="real-money" style="position: absolute;" value="" required hidden>
+                    </th>
+                </tr>
+            <tr>
+                <td colspan="2" style="position: relative;height: 100px;transform: translateY(5px);">
+                    <div class="summary-box">
+                        <h2 id="itemname"></h2>
+                        <h2 id="dateinfo"></h2>
+                        <h1 class="money">0</h1>
+                    </div>
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <a href="{% url 'index' %}" class="canel-btn">Cancel</a>
+                </td>
+                <td align="right" style="vertical-align: bottom;">
+                    <div class="login-btn-box">
+                    <input type="submit" style="font-size: 15px;" value="ADVERTISE" id="ads-btn" class="product-btn" onclick="checkall()">
+                    </div>
+                </td>
+            </tr>
+            </table>
+        </form>
+
+        <script>
+            setdates();
+            selecttotaldate();
+
+            function setdates() {
+                let el1 = document.getElementById('ads-start-date');
+                let el2 = document.getElementById('ads-end-date');
+                let today = new Date();
+                el1.value = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
+                el1.min = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
+                el2.value = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
+                el2.min = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
+
+                 $(".main-message-box").hide();
+            }
+
+            function selecttotaldate() {
+                let el1 = document.getElementById('ads-start-date').value;
+                let el2 = document.getElementById('ads-end-date').value;
+                let el3 = document.getElementById('total-days');
+                let date1 = new Date(el1);
+                let date2 = new Date(el2);
+
+                let datetimes = date2 - date1;
+                let datedays = datetimes / (1000 * 3600 * 24);
+
+                if (datedays <= 0) {
+                    el3.classList.add("warning");
+                    el3.innerHTML = "hmm please check your dates once more...";
+                } else {
+                    el3.classList.remove("warning");
+                    el3.innerHTML = "So you want to show ads for <h1 style='padding: 10px;transform: translateY(-19px);'>" + datedays + "</h1> days";
+                }
+                calculatemoney();
+            }
+
+            function calculatemoney() {
+                let el1 = document.getElementById('ads-start-date').value;
+                let el2 = document.getElementById('ads-end-date').value;
+                let date1 = new Date(el1);
+                let date2 = new Date(el2);
+
+                setTimeout(function(){
+                let datetimes = date2 - date1;
+                let datedays = datetimes / (1000 * 3600 * 24);
+                if(datedays <= 0)
+                    datedays = 0;
+                let el11 = document.getElementsByClassName('money');
+                let idz = 0;
+                if(document.getElementById('layout1').checked) {
+                    idz = document.getElementById('layout1').value;
+                }else if(document.getElementById('layout2').checked) {
+                    idz = document.getElementById('layout2').value;
+                }else if(document.getElementById('layout3').checked) {
+                    idz = document.getElementById('layout3').value;
+                }else {
+                    idz = 0;
+                }
+                let totalpay =  idz * datedays;
+                el11[0].innerHTML = totalpay.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                document.getElementById('real-money').value = totalpay;
+                },1);
+
+                document.getElementById("itemname").innerHTML = "* The advertising product is "+ document.getElementById("product-dropdown").value +",";
+                document.getElementById("dateinfo").innerHTML = "* From "+ el1 +" to "+ el2 +".";
+
+            }
+
+            function readURL(input) {
+              if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function(e) {
+                  $('#imageupload').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+              }
+            }
+
+            $("#file-uploader").change(function() {
+              readURL(this);
+            });
+
+            function checkall() {
+                let error_arry = [];
+                if($("#file-uploader").val() === '') {
+                    error_arry.push("Uploading Image");
+                    $(".main-message-box").show();
+                }
+                vvl1 = $("#layout1").is(':checked');
+                vvl2 = $("#layout2").is(':checked');
+                vvl3 = $("#layout3").is(':checked');
+
+                if (vvl1 === false && vvl2 === false && vvl3 === false) {
+                    error_arry.push(" Select any Layout");
+                    $(".main-message-box").show();
+                }
+
+
+
+                $("#error-msg-text").text(error_arry);
+
+
+            }
+
+            function closeme() {
+                $(".main-message-box").hide()
+            }
+
+        </script>
+
+    </div>
+
+{% endblock %}

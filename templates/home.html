@@ -1,0 +1,153 @@
+{% extends 'UserMaster.html' %}
+
+{% block main_block %}
+    {% load static %}
+
+    <!-- Start Image Slider-->
+    <div class="image-slider-box">
+    {% for ad in ads %}
+        {% if ad.layout == 'layout1' %}
+            <a href="{% url 'viewmainproduct' ad.product_id %}">
+            <img src="{{ ad.adsimage.url }}" class="ads-img-slider">
+            </a>
+        {% endif %}
+    {% endfor %}
+    </div>
+    <!-- End Image Slider-->
+
+    <a href="{% url 'allgames' %}" style="position: relative;top: 10px;left: 5%;"><img width="90%" src="{% static 'images/gamebanner.svg' %}"></a>
+
+        <div class="home-view-box" style="transform: translateY(-50px)">
+            <h1 class="box-title">Recent Trades</h1>
+
+          {% for p in products %}
+            <div class="product-main-box">
+                <div class="home-coin-box" title="This is L-Coin used to trade.">
+                    <img src="{% static 'images/coin.svg' %}" width="17px" style="padding-right: 5px;">
+                    <h3 style="font-family: Montserrat;font-size: 13px;color: #666666;">{{ p.lcoin }}</h3>
+                </div>
+                <div class="product-view-img-box">
+                    <img src="{{ p.productimage.url }}" class="product-view-img">
+                </div>
+                <table class="prd-info-table">
+                    <tr>
+                        <td>
+                            <h2 class="prd-name-label">{{ p.productname }}</h2>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h3 class="prd-info-label">{{ p.info }}</h3>
+                        </td>
+                    </tr>
+                </table>
+                <a href="{% url 'viewmainproduct' p.id %}" class="trade-now-btn">Trade Now</a>
+            </div>
+          {% endfor %}
+
+        <script>
+            adSlider();
+
+            function adSlider() {
+                let el1 = document.getElementsByClassName('ads-img-slider');
+                let totalimg = el1.length;
+                let currentimg = 0;
+
+                setInterval(function(){
+                    for(let i = 0; i < totalimg; i++) {
+                        if( i === currentimg) {
+                            el1[currentimg].style.visibility = 'visible';
+                        }else {
+                            el1[i].style.visibility = 'hidden';
+                        }
+                    }
+
+                    currentimg++;
+
+                    if(currentimg === totalimg) {
+                        currentimg = 0;
+                    }
+
+                },5000);
+
+            }
+        </script>
+
+        </div>
+    <!--Ads layout 3-->
+    <div class="ads-layout3">
+    {% for ad in ads %}
+        {% if ad.layout == 'layout3' %}
+            <a href="{% url 'viewmainproduct' ad.product_id %}">
+            <img src="{{ ad.adsimage.url }}" class="ads-img-slider2">
+            </a>
+        {% endif %}
+    {% endfor %}
+
+            <script>
+            adSlider2();
+
+            function adSlider2() {
+                let el1 = document.getElementsByClassName('ads-img-slider2');
+                let totalimg = el1.length;
+                let currentimg = 0;
+
+                setInterval(function(){
+                    for(let i = 0; i < totalimg; i++) {
+                        if( i === currentimg) {
+                            el1[currentimg].style.visibility = 'visible';
+                        }else {
+                            el1[i].style.visibility = 'hidden';
+                        }
+                    }
+
+                    currentimg++;
+
+                    if(currentimg === totalimg) {
+                        currentimg = 0;
+                    }
+
+                },5500);
+
+            }
+        </script>
+
+    </div>
+    <!--Ads layout 3-->
+
+        <div class="community-message-box">
+            <div class="com-chat-box">
+            <a class="close-community" href="#">X</a>
+                <div class="com-title-box">
+                    <h1 style="padding-top: 10px;">Community Chat</h1>
+                    <h5>The place where we discuss,</h5>
+                </div>
+                <div id="discussion-box">
+                    {% for chat in comchats %}
+                        <div class="com-message-box">
+                        <div class="user-icon"></div>
+                        <h4 class="com-username">{{ chat.user_id.f_name }}</h4>
+                        <h5 class="actual-com-message">{{ chat.actual_message }}</h5>
+                        <h6 class="comm-message-tim">&#128337; {{ chat.message_time }}</h6>
+                            <script>
+                                var chatlist = document.getElementById('discussion-box');
+                                chatlist.scrollTop = chatlist.scrollHeight;
+                            </script>
+                    </div>
+                    {% endfor %}
+                </div>
+                <form id="community-form" method="post">
+                    {% csrf_token %}
+                <input type="text" name="community-message" class="community-input" placeholder="Type your message here">
+                </form>
+                <h6 class="community-error-message">Please enter a valid message</h6>
+            </div>
+        </div>
+    {% if request.session.user_id %}
+    <div class="community-box">
+        <a href="#" class="community-btn">Community
+        </a>
+    </div>
+    {% endif %}
+
+{% endblock %}

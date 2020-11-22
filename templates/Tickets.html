@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <title>LUCI | Ticket</title>
+</head>
+<body>
+
+<h1>Available Tickets</h1>
+<div class="ticket-box">
+    {% if tickets %}
+        <ul id="ticket-list">
+            {% for ti in tickets %}
+                <li id="{{ ti.id }}" class="ticket-li">{{ ti.ticketname }}-----{{ ti.ticketnumber }}-----<input type="radio" value="{{ ti.id }}" name="ticketavailable" class="ticketbuy"></li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <h4>No Tickets available</h4>
+    {% endif %}
+    <h4 hidden>No Tickets available</h4>
+</div>
+
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script src="{% static 'javascript/ticket.js' %}"></script>
+</html>

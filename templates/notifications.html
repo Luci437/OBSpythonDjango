@@ -1,0 +1,54 @@
+{% extends 'user_account.html' %}
+
+{% block headpart %}
+<style>
+.notification-active {
+    overflow: hidden;
+    text-shadow: 0 5px 2px rgba(0,0,0,0.1);
+    color: #818181;
+    box-shadow: 5px 5px 20px rgba(55,84,170,0.11),-10px -10px 15px #ffffff, 2px 2px 2px rgba(255,255,255,0.5) inset, 4px 4px 4px rgba(0,0,0,0.1) inset,-4px -4px 4px rgba(255,255,255,0.8) inset;
+}
+</style>
+{% endblock %}
+
+{% block dashboard %}
+    {% load static %}
+    <div class="main-notification-container">
+        <h2 style="font-family: 'Poppins Medium';font-size: 18px;transform: translateY(-15px);color: rgba(210,210,210,0.93);font-weight: lighter;">Request Notifications</h2>
+        {% if is_request_on %}
+            {% for rq in is_request_on %}
+        <div class="request-notification-box">
+            <h2 class="noti-title">Request for Exchange</h2>
+            <h5 class="time-of-notification">{{ rq.datetimeofrequest | date:'M d, Y' }}</h5>
+            <h4 class="notification-main-text">{{ rq.fromwhom.f_name }} is ready to exchange {{ rq.whatproduct.productname }} with {{ rq.withwhatproduct }}.Do you want to trade with him?</h4>
+            <div class="notification-response-btn-box">
+                <a class="rqtbtn rqtaccept" href="{% url 'acceptrequest' rq.id %}">Accept</a>
+                <a class="rqtbtn rqtdecline" href="{% url 'rejectrequest' rq.id %}">Not Interested</a>
+            </div>
+        </div>
+            {% endfor %}
+            {% else %}
+            <h4 class="no-request-label">No Request till now.</h4>
+        {% endif %}
+        <h2 style="font-family: 'Poppins Medium';font-size: 18px;color: rgba(210,210,210,0.93);font-weight: lighter;">All Notifications</h2>
+        {% if notificationz %}
+            {% for notz in notificationz %}
+                {% if not notz.notificationseen %}
+                <div class="normal-notifications notseen">
+                    <img src="{% static 'images/arrows.svg' %}">
+                    <h5>{{ notz.notificationtext }}</h5>
+                    <h6 class="notification-time">{{ notz.notificationtime |date:"M d, Y" }}</h6>
+                </div>
+                {% else %}
+                <div class="normal-notifications seen">
+                    <img src="{% static 'images/arrows.svg' %}">
+                    <h5>{{ notz.notificationtext }}</h5>
+                    <h6 class="notification-time">{{ notz.notificationtime |date:"M d, Y" }}</h6>
+                </div>
+                {% endif %}
+            {% endfor %}
+        {% else %}
+            <h4 class="no-request-label">No Notifications to show.</h4>
+        {% endif %}
+    </div>
+{% endblock %}

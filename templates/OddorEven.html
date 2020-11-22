@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <title>LUCI | GAMES</title>
+    <link rel="stylesheet" href="{% static 'css/game2.css' %}" type="text/css">
+</head>
+<body onload="startups();" onclick="fullscreenagain();" id="bbdy">
+    {% if noob %}
+    <div class="start1">
+        <h1>Odd | Even</h1>
+        <h2>Powered by <span>LUCI</span></h2>
+        <div class="loader">
+            <div class="loadbar"></div>
+        </div>
+    </div>
+    {% else %}
+        <div class="start1">
+        <h3 style="color: #fff;font-family: 'Poppins Light';">Game will start in 5sec.</h3>
+        </div>
+    {% endif %}
+
+    <div class="game-container">
+        <div class="title-container">
+            <a href="{% url 'allgames' %}">LUCI</a><h5>Games</h5>
+        </div>
+
+        <div class="button-box">
+            <div class="top-part">
+                <h4 style="text-align: center;width: 100%;">Game Controller</h4>
+            </div>
+                <div class="all-buttons">
+                    <button class="btns" value="1">1</button>
+                    <button class="btns" value="2">2</button>
+                    <button class="btns" value="3">3</button>
+                    <button class="btns" value="4">4</button>
+                    <button class="btns" value="5">5</button>
+                    <button class="btns" value="6">6</button>
+                    <button class="btns" value="7">7</button>
+                    <button class="btns" value="8">8</button>
+                    <button class="btns" value="9">9</button>
+                </div>
+        </div>
+
+                <div class="game-main-container">
+
+                    <div class="welcome-box">
+                        <table style="width: 100%;text-align: center;transform: translateY(50px);">
+                            <tr>
+                                <td>
+                                    <h3 style="font-family: Montserrat;font-size: 15px;color: #ac3739;">Welcome {{ current_user_info.f_name }}, to</h3>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h2 style="font-family: 'Space Ranger';font-size: 50px;background: linear-gradient(#f8f8f8,#cfcfcf);-webkit-background-clip: text;-webkit-text-fill-color: transparent">odd | even</h2>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td height="100px;" style="vertical-align: bottom;">
+                                    <h4 style="font-family: Montserrat;font-size: 13px;color: #ac3739;padding-bottom: 10px;padding-left: 8px;">Lets start the game by taking the tosses.</h4>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <button class="toss-button" value="H">HEADS</button>
+                                    <button class="toss-button" value="T">TAILS</button>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="toss-box-container">
+                            <div class="toss-box">
+                                <div class="coin">
+                                    <h1 id="toss-result"></h1>
+                                </div>
+                                <div class="top-cover">
+                                </div>
+                                <div class="vertical-bars">
+                                    <div class="vertical-barss"></div>
+                                    <div class="vertical-barss"></div>
+                                    <div class="vertical-barss"></div>
+                                    <div class="vertical-barss"></div>
+                                    <div class="vertical-barss"></div>
+                                </div>
+                                <div class="horz-bar-bottom"></div>
+                                <div class="horz-bar-bottom bar2"></div>
+                            </div>
+                        <h4 id="toss-result-text" style="position: absolute;bottom: 80px;font-family: Poppins;font-size: 14px;color: #973e31;"></h4>
+                        </div>
+
+                    <div class="actual-game-container">
+                        <div class="user-section">
+
+                            <h1 class="nonstrikers userstriker">0</h1>
+
+                            <img class="main-poster" id="user-poster" src="" alt="">
+
+                            <div class="game-score-box">
+                                <h4 id="userscore" class="scores">0</h4>
+                            </div>
+
+                            <table width="100%" cellspacing="10">
+                                <tr>
+                                    <td align="center">
+                                        <div class="user-icon-box">
+                                            <h6 class="player-name">{{ current_user_info.f_name }}</h6>
+                                            <img src="{% static 'images/cricket player.svg' %}" width="60px">
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="center" height="80px">
+                                        <div class="run-box">
+                                            <ul class="run-list" id="user-values">
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="computer-section">
+
+                            <h1 class="nonstrikers computerstriker">0</h1>
+
+                            <img class="main-poster" id="computer-poster" src="" alt="">
+
+                            <div class="game-score-box">
+                                <h4 id="computerscore" class="scores">0</h4>
+                            </div>
+
+                            <table cellspacing="10">
+                                <tr>
+                                    <td align="center">
+                                        <div class="user-icon-box">
+                                            <h6 class="player-name">Computer</h6>
+                                            <img src="{% static 'images/cricket player.svg' %}" width="60px">
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="center" height="80px">
+                                        <div class="run-box">
+                                            <ul class="run-list" id="computer-values">
+
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="result-main-box">
+                        <table cellspacing="10" style="text-align: center;" width="100%">
+                            <tr>
+                                <td>
+                                    <h4>GAME OVER</h4>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h2 id="result-text-h2">YOU WIN</h2>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h5>You earn <span id="result-lcoin">0</span> coins.</h5>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="transform: translateY(50px);">
+                                    <form method="post" action="{% url 'finishgames' %}">
+                                        {% csrf_token %}
+                                    <input type="hidden" name="gameid" value="{{ game.id }}">
+                                    <input type="hidden" name="score" id="userscored">
+                                    <input type="hidden" name="wincoin" id="wincoin">
+                                    <button class="finish-btn" type="submit">DONE</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <img id="out-img" style="position: absolute;left: 0px;top: 0px;width: 100%;z-index: 9;" src="">
+
+                </div>
+
+        <div class="score-card-box">
+            <div class="top-part">
+                <h4>Scores</h4><h4>Coins</h4>
+            </div>
+            <div class="all-scores">
+                <div class="score-box">
+                    <h4>>50</h4><h3 class="gamelcoins">x 10</h3>
+                </div>
+                <div class="score-box">
+                    <h4>>100</h4><h3 class="gamelcoins">x 20</h3>
+                </div>
+                <div class="score-box">
+                    <h4>>200</h4><h3 class="gamelcoins">x 50</h3>
+                </div>
+                <div class="score-box">
+                    <h4>>500</h4><h3 class="gamelcoins">x 200</h3>
+                </div>
+                <h6>*Play and win the L-coins</h6>
+            </div>
+        </div>
+    </div>
+
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script src="{% static 'javascript/game2.js' %}"></script>
+</html>

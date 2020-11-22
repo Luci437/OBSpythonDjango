@@ -1,0 +1,77 @@
+{% extends 'user_account.html' %}
+
+{% block headpart %}
+    {% load static %}
+<style>
+.editprofile-active {
+    overflow: hidden;
+    text-shadow: 0 5px 2px rgba(0,0,0,0.1);
+    color: #818181;
+    box-shadow: 5px 5px 20px rgba(55,84,170,0.11),-10px -10px 15px #ffffff, 2px 2px 2px rgba(255,255,255,0.5) inset, 4px 4px 4px rgba(0,0,0,0.1) inset,-4px -4px 4px rgba(255,255,255,0.8) inset;
+}
+</style>
+{% endblock %}
+
+{% block dashboard %}
+
+    <div class="edit-profile-main-container">
+        <form method="post" action="{% url 'editprofile' %}">
+            {% csrf_token %}
+            <table cellspacing="20">
+                <th>
+                    <h1>Edit Profile</h1>
+                    <h3>So you want to edit you profile!,go ahead...</h3>
+                </th>
+                <tr>
+                    <td align="left">
+                        <div class="input-box">
+                            <input type="text" id="about" name="name" autocomplete="off" class="logininput" value="{{ user_info.f_name }}" spellcheck="false">
+                            <label for="about" class="labelname">Trader Name</label>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="left">
+                        <div class="input-box">
+                            <input type="text" id="uname" name="uname" autocomplete="off" class="logininput" value="{{ user_username.username }}" spellcheck="false">
+                            <label for="uname" class="labelname">Username or Email id</label>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="left">
+                        <div class="input-box">
+                            <input type="text" id="about" name="about" autocomplete="off" class="logininput" value="{{ user_info.about_user }}">
+                            <label for="about" class="labelname">Say something about you</label>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="left">
+                        <div class="input-box">
+                            <input type="password" id="oldpass" name="oldpass" autocomplete="off" required="" class="logininput">
+                            <label for="oldpass" class="labelname">Current password</label>
+                        </div>
+                    </td>
+                </tr>
+                <th style="color: rgba(134,135,134,0.32);font-family: 'Poppins Medium';font-weight: normal;">Change Password, only if you want.</th>
+                <tr>
+                    <td align="left">
+                        <div class="input-box">
+                            <input type="password" id="pass" name="newpass" autocomplete="off" class="logininput">
+                            <label for="pass" class="labelname">New Password</label>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right" style="vertical-align: bottom;">
+                        <div class="login-btn-box">
+                        <input type="submit" value="UPDATE PROFILE" class="product-btn">
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+
+{% endblock %}

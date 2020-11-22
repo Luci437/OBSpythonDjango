@@ -1,0 +1,50 @@
+{% extends 'user_account.html' %}
+
+{% block dashboard %}
+    {% load static %}
+<div class="coin-main-container">
+    <table cellspacing="10">
+    <tr style="display: flex;flex-direction: column;text-align: center;height: 100px;vertical-align: top;">
+        <th>Change L-Coin</th>
+        <td>
+        <h5 style="font-family: 'Poppins Light';color: rgba(0,0,0,0.22);">You can change your item's coins here.</h5>
+        </td>
+    </tr>
+    <tr>
+        <td align="center" style="vertical-align: bottom;position: relative;">
+            <img width="150px" src="{{ prd.productimage.url }}" style="border-radius: 5px;padding: 10px;background: #fff;">
+            <h4 style="font-family: 'Poppins SemiBold';color: rgba(0,0,0,0.62);">{{ prd.productname }}</h4>
+            <h5 style="color: #c4c1a1;padding-left: 23px;position: absolute;top: 3px;right: 170px;" class="pcoin-label">{{ prd_coin }}</h5>
+        </td>
+    </tr>
+        <tr>
+            <td style="padding-top: 5px;">
+                <form method="post" action="{% url 'changecoin' prdid %}">
+                {% csrf_token %}
+                <input type="range" id="coinrange" max="" min="0" value="{{ prd_coin }}" onchange="showval()" onmousemove="showval();" class="coinranger" style="width: 300px;">
+                    <img src="{% static 'images/luci coin.svg' %}" width="30px;" style="position: relative;top: 2px;padding-left: 60px;">
+                <input readonly id="valcoin" name="newval" value="{{ prd_coin }}" style="width:100px;background: transparent;border: none;font-family: Montserrat;font-weight: bold;font-size: 30px;padding-left: 5px;padding-bottom: 10px;box-sizing: border-box;position: relative;color: #c4c1a1;">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="submit" value="CHANGE L-COINS" class="product-btn">
+                </form>
+                <script>
+    function showval() {
+        $('#valcoin').val($('#coinrange').val());
+    }
+
+    $(document).ready(function(){
+        ucoin = {{ ucoin }};
+        pcoin = {{ prd_coin }};
+        tcoin = ucoin + pcoin;
+        let x = document.getElementById("coinrange").max = tcoin;
+    });
+
+    </script>
+            </td>
+        </tr>
+    </table>
+</div>
+{% endblock %}

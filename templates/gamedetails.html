@@ -1,0 +1,64 @@
+{% extends 'UserMaster.html' %}
+
+{% block main_block %}
+{% load static %}
+
+    <div class="game-detail-box">
+        <div class="game-detail-img-box">
+            <img src="{{ games.gamewallpaperimg.url }}">
+            <span class="imgcover"></span>
+            <a href="{% url 'startgame' games.id %}" class="game-start-button">START GAME</a>
+            <h3 class="game-name">{{ games.gamename }}</h3>
+            <h6 class="game-cat">{{ games.category }}</h6>
+
+        <div class="rating-all-box">
+            <table>
+                <tr>
+                    <td>
+                        <h6 style="color: #7a7a7a;">Total Plays</h6>
+                    </td>
+                    <td>
+                        <h6 style="font-family: 'Product Sans' !important;padding-left: 5px;"><b>{{ games.totalplays }}</b></h6>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        </div>
+
+        <div class="current-king-box">
+            <h3>{{ games.kingofgame }} <span style="position: absolute;left: 0px;top: -10px;color: #797979;font-size: 8px;font-family: 'Poppins Light';">High Score <b>{{ games.highestscore }}</b></span></h3>
+
+        </div>
+
+    <p class="about-game">{{ games.aboutgame }}</p>
+
+    <div class="report-box">
+        <h2>Reports about this game</h2>
+
+        <div class="top-report-box">
+            <form method="post" action="{% url 'rategames' %}">
+                {% csrf_token %}
+            <input placeholder="Say what you think about this game." required type="text" name="review">
+            <input type="hidden" value="{{ games.id }}" name="gameid">
+            <button type="submit">Submit</button>
+            </form>
+        </div>
+
+        <div class="all-reports-box">
+
+            {% for re in reviewz %}
+            <div class="each-report">
+                <h4>{{ re.userid.f_name }}</h4>
+                <h5>{{ re.review }}</h5>
+                <h6 class="review-time">{{ re.reviewtime | date:"M d, Y" }}</h6>
+            </div>
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+    </div>
+
+{% endblock %}

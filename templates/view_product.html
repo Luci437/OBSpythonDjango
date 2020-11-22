@@ -1,0 +1,139 @@
+{% extends 'UserMaster.html' %}
+
+{% block headpart %}
+<script>
+
+    $(document).ready(function(){
+        $(".report-trader-main-box").hide();
+    });
+
+function closeme() {
+    $(".report-trader-main-box").hide();
+}
+
+function showme() {
+    $(".report-trader-main-box").show();
+}
+
+</script>
+{% endblock %}
+
+{% block main_block %}
+    {% load static %}
+    {% if not prd.is_active %}
+    <div class="yestraded">
+        <img src="{% static 'images/itemtraded.svg' %}" class="yestradedimg">
+    </div>
+    {% endif %}
+
+    <div class="report-trader-main-box">
+        <table class="report-table">
+            <tr>
+                <th><h1>Report Trader</h1></th>
+            </tr>
+            <tr>
+                <td align="center" style="transform: translateY(-10px);">
+                    <h3>Reason for reporting "{{ user.f_name }}",give a brief.</h3>
+                </td>
+            </tr>
+            <form method="post" action="{% url 'report' %}">
+                {% csrf_token %}
+            <tr>
+                <td style="position:relative;">
+                    <input type="text" name="report" id="reporter" required autocomplete="false">
+                    <label for="reporter" class="report-label">Type your reason here.</label>
+                    <img src="{% static 'images/note.svg' %}" class="notes-img">
+                </td>
+            </tr>
+            <tr>
+                <td align="right" style="padding-top: 10px;position:relative;">
+                    <h6>Product name: {{ prd.productname }}</h6>
+                    <button type="submit" id="cancel-report" onclick="closeme();">cancel</button>
+                    <input type="submit" value="report" class="report-confirm-btn">
+                </td>
+            </tr>
+                <input type="hidden" name="prdid" value="{{ prd.id }}">
+                </form>
+        </table>
+    </div>
+<div class="main-viewproduct-box">
+    <div class="product-view-box">
+        <img src="{{ prd.productimage.url }}" class="view-main-img">
+        <h6 class="prd-date-info">{{ prd.product_date|date:"M d, Y" }}</h6>
+        <div class="user-info-box">
+            <table>
+                <tr>
+                    <td rowspan="2" width="35px">
+                        <div class="user-pic"></div>
+                    </td>
+                    <td style="color: #6e6e6e;font-weight:bold;font-size: 14px;">
+                        {{ user.f_name }}
+                    </td>
+                </tr>
+                <tr>
+                    <td style="color: #aaaaaa;font-size: 12px;">
+                        @{{ log.username }}
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="product-detail-box">
+        <table width="100%;">
+            <tr>
+                <td style="display: flex;">
+                    <h1 style="color: rgba(68,68,68,0.67);">{{ prd.productname }}</h1>
+                    {% if is_liked %}
+                    <a href="{% url 'productlike' prd.id %}" title="Favourite Product"><i class="fas fa-heart fa-heart-red" id="favo"></i></a>
+                    {% else %}
+                    <a href="{% url 'productlike' prd.id %}" title="Favourite Product"><i class="fas fa-heart fa-heart-light" id="favo"></i></a>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h4 style="color: rgba(0,0,0,0.29);font-weight: lighter;font-family: 'Product Sans';">{{ prd.info }}</h4>
+                </td>
+            </tr>
+            <tr>
+                <td height="180px" style="vertical-align: bottom;">
+                    <h2 style="font-family: 'Product Sans';font-size: 16px;color: #d6d6d6;">Return Items</h2>
+                    <div class="return-all-box">
+                            <h4 title="{{ rt.ret1info }}">{{ rt.ret1name }}</h4>
+                            <h4 title="{{ rt.ret2info }}">{{ rt.ret2name }}</h4>
+                            <h4 title="{{ rt.ret3info }}">{{ rt.ret3name }}</h4>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td height="120px" style="vertical-align: bottom; position:relative;">
+                    <div class="product-info-box">
+                        <h4>* Only chat with the trader if you want to trade.</h4>
+                        <h4>* You can trade, if you have any one return item.</h4>
+                        <h4>* Each trade will give you 20 luci coins.</h4>
+                        <h4>* <a href="#" onclick="showme();" style="color: rgba(137,179,201,1);text-decoration: underline;">Report</a> the trader only if you find any problem.</h4>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td style="display: flex;vertical-align: bottom;position: relative;">
+                    <div class="luci-coin-box">
+                        * Trade with me and you will get
+                        <img src="{% static 'images/luci coin.svg' %}" class="luci-coin">
+                        <h3 class="luci-coin-number">{{ prd.lcoin }}</h3>
+                          bonus luci coins.
+                    </div>
+                {% if prd.is_active %}
+                    {% if prd.user_id_id != request.session.user_id %}
+                    <div class="product-buttons" style="position: absolute;right: 0px;">
+                        <img src="{% static 'images/paper-plane.svg' %}" class="chat-paper-plane">
+                        <a href="{% url 'pigeonshow' prd.id %}" class="chat-now-bnt">Chat Now</a>
+                    </div>
+                    {% endif %}
+                {% endif %}
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+{% endblock %}

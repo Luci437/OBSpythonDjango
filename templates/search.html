@@ -1,0 +1,66 @@
+{% extends 'UserMaster.html' %}
+
+{% block main_block %}
+{% load static %}
+        <div class="home-view-box" style="transform: translateY(-50px)">
+        {% if products %}
+            <h1 class="box-title">Search Result</h1>
+          {% for p in products %}
+            <div class="product-main-box">
+                <div class="home-coin-box" title="This is L-Coin used to trade.">
+                    <img src="{% static 'images/coin.svg' %}" width="17px" style="padding-right: 5px;">
+                    <h3 style="font-family: Montserrat;font-size: 13px;color: #666666;">{{ p.lcoin }}</h3>
+                </div>
+                <div class="product-view-img-box">
+                    <img src="{{ p.productimage.url }}" class="product-view-img">
+                </div>
+                <table class="prd-info-table">
+                    <tr>
+                        <td>
+                            <h2 class="prd-name-label">{{ p.productname }}</h2>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h3 class="prd-info-label">{{ p.info }}</h3>
+                        </td>
+                    </tr>
+                </table>
+                <a href="{% url 'viewmainproduct' p.id %}" class="trade-now-btn">Trade Now</a>
+            </div>
+          {% endfor %}
+        {% else %}
+        <img src="{% static 'images/no result.svg' %}" style="width: 700px;position: absolute;left: 50%;top: 50%;transform: translate(-50%, 10%);">
+        {% endif %}
+
+        <script>
+            adSlider();
+
+            function adSlider() {
+                let el1 = document.getElementsByClassName('ads-img-slider');
+                let totalimg = el1.length;
+                let currentimg = 0;
+
+                setInterval(function(){
+                    for(let i = 0; i < totalimg; i++) {
+                        if( i === currentimg) {
+                            el1[currentimg].style.visibility = 'visible';
+                        }else {
+                            el1[i].style.visibility = 'hidden';
+                        }
+                    }
+
+                    currentimg++;
+
+                    if(currentimg === totalimg) {
+                        currentimg = 0;
+                    }
+
+                },5000);
+
+            }
+        </script>
+
+        </div>
+
+{% endblock %}

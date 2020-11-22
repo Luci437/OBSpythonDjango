@@ -1,0 +1,22 @@
+* {
+    margin: 0px;
+    padding: 0px
+}
+body {
+    width: 100%;
+    height: 100vh;
+}
+.options {
+    text-decoration: none;
+}
+footer {
+    position: absolute;
+    bottom: 10px;
+    width: 100%;
+    text-align: center;
+}
+.Uname {
+    font-family: Montserrat;
+    font-weight: bold;
+    text-transform: uppercase;
+}

@@ -1,0 +1,73 @@
+{% extends 'user_account.html' %}
+
+{% block headpart %}
+    {% load static %}
+<style>
+.viewproduct-active {
+    overflow: hidden;
+    text-shadow: 0 5px 2px rgba(0,0,0,0.1);
+    color: #818181;
+    box-shadow: 5px 5px 20px rgba(55,84,170,0.11),-10px -10px 15px #ffffff, 2px 2px 2px rgba(255,255,255,0.5) inset, 4px 4px 4px rgba(0,0,0,0.1) inset,-4px -4px 4px rgba(255,255,255,0.8) inset;
+}
+</style>
+{% endblock %}
+
+{% block dashboard %}
+    {% load static %}
+    {% if not products %}
+        <table class="product-msg-box">
+            <tr>
+                <td>
+                    <img src="{% static 'images/devil.svg' %}">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h2>You have't uploaded any product</h2>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h4>Add your product now, and get suitable traders</h4>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <a href="{% url 'addproduct' %}">SEE HOW ?</a>
+                </td>
+            </tr>
+        </table>
+    {% else %}
+        <div class="main-view-box">
+          {% for p in products %}
+            <div class="product-main-box">
+                <div class="product-view-img-box">
+                    <img src="{{ p.productimage.url }}" class="product-view-img">
+                </div>
+                <h2 class="prd-name-label">{{ p.productname }}</h2>
+                <h3 class="prd-info-label">{{ p.info }}</h3>
+                <a href="{% url 'changecoin' p.id %}" class="coin-edit-btn" title="Change Coins"></a>
+                <a href="#" class="product-edit-btn" title="Edit"></a>
+                <a href="{% url 'userremoveitem' p.id %}" class="product-remove-btn" title="Remove"></a>
+            </div>
+          {% endfor %}
+        </div>
+
+        <div class="main-view-box">
+        {% if traded_product %}
+            <h3 style="position: absolute;font-family: Poppins;color: rgba(0,0,0,0.38);transform: translateY(60px);">Your traded items</h3>
+          {% for p in traded_product %}
+            <a href="{% url 'viewmainproduct' p.id %}">
+            <div class="product-main-box" style="margin-top: 100px;">
+                <div class="product-view-img-box">
+                    <img src="{{ p.productimage.url }}" class="product-view-img">
+                </div>
+                <h2 class="prd-name-label">{{ p.productname }}</h2>
+                <h3 class="prd-info-label">{{ p.info }}</h3>
+            </div>
+            </a>
+          {% endfor %}
+        </div>
+        {% endif %}
+    {% endif %}
+{% endblock %}

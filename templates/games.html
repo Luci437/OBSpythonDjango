@@ -1,0 +1,22 @@
+{% extends 'UserMaster.html' %}
+
+{% block main_block %}
+    {% load static %}
+
+    <h1 style="color: #A9C7E5;font-family: Poppins;width: 100%;text-align: center;">All Games</h1>
+    <h5 style="color: rgba(0,0,0,0.23);font-family: 'Poppins Light';width: 100%;text-align: center;transform: translateY(-10px);">Play luci games and win exciting rewards.</h5>
+
+    <div class="all-games-main-container">
+    {% for ga in games %}
+        <a href="{% url 'detailsgame' ga.id %}">
+            <div class="game-boxs">
+                <div class="game-img-box">
+                    <img src="{{ ga.gameiconimg.url }}">
+                </div>
+                <h3>{{ ga.gamename }}</h3>
+            </div>
+        </a>
+    {% endfor %}
+    </div>
+
+{% endblock %}

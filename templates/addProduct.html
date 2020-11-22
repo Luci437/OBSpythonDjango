@@ -1,0 +1,169 @@
+{% extends 'user_account.html' %}
+
+{% block headpart %}
+    {% load static %}
+
+<script>
+
+function countvalue() {
+    let val = document.getElementById('about').value;
+    let el = document.getElementById('currentlen');
+    let le = val.length;
+
+    el.innerHTML = le;
+}
+
+</script>
+
+<style>
+.toaddproduct-active {
+    overflow: hidden;
+    text-shadow: 0 5px 2px rgba(0,0,0,0.1);
+    color: #818181;
+    box-shadow: 5px 5px 20px rgba(55,84,170,0.11),-10px -10px 15px #ffffff, 2px 2px 2px rgba(255,255,255,0.5) inset, 4px 4px 4px rgba(0,0,0,0.1) inset,-4px -4px 4px rgba(255,255,255,0.8) inset;
+}
+</style>
+{% endblock %}
+
+{% block dashboard %}
+
+<div class="add-product-container">
+        <form method="post" action="{% url 'productadded' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <table cellspacing="20" style="width: 500px;">
+                <th>
+                    <h1>Add a product</h1>
+                    <h3>Thank you for adding a new product to our list.</h3>
+                </th>
+               <tr>
+                    <td align="left">
+                        <div class="input-box">
+                            <input type="text" id="product-name" name="product-name" autocomplete="off" required class="logininput">
+                            <label for="product-name" class="labelname">Name</label>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="left">
+                        <div class="input-box">
+                            <input type="text" id="about" maxlength="100" style="padding-right: 50px;" name="about" autocomplete="off" onkeydown="countvalue()" required class="logininput">
+                            <label for="about" class="labelname">About Product</label>
+                            <div class="totalvalue-box">
+                                <h6 id="currentlen">0</h6><h6>/100</h6>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+
+                <th align="left" height="50px" style="vertical-align: bottom;font-family: 'Poppins Medium';color: rgba(0,0,0,0.29);transform: translateY(12px);">Product Category</th>
+                <tr>
+                    <td>
+                        <select name="category" class="catdroplist">
+                            {% for cat in cats %}
+                            <option style="font-family: 'Poppins';padding: 10px 20px;">{{ cat.categoryname }}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+
+                    </td>
+                </tr>
+
+                <th align="left" height="50px" style="vertical-align: bottom;font-family: 'Poppins Medium';color: rgba(0,0,0,0.29);transform: translateY(12px);">Return Item 1</th>
+                <tr>
+                    <td align="left">
+                        <div class="input-box">
+                            <input type="text" id="returnitem1" name="returnitem1" autocomplete="off" required class="logininput">
+                            <label for="returnitem1" class="labelname">Return item name</label>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="left">
+                        <div class="input-box">
+                            <input type="text" id="aboutreturnitem1" name="aboutreturnitem1" autocomplete="off" required class="logininput">
+                            <label for="aboutreturnitem1" class="labelname">About Return Item 1</label>
+                        </div>
+                    </td>
+                </tr>
+                <th align="left" height="50px" style="vertical-align: bottom;font-family: 'Poppins Medium';color: rgba(0,0,0,0.29);transform: translateY(12px);">Return Item 2</th>
+                <tr>
+                    <td align="left">
+                        <div class="input-box">
+                            <input type="text" id="returnitem2" name="returnitem2" autocomplete="off" required class="logininput">
+                            <label for="returnitem2" class="labelname">Return item name</label>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="left">
+                        <div class="input-box">
+                            <input type="text" id="aboutreturnitem2" name="aboutreturnitem2" autocomplete="off" required class="logininput">
+                            <label for="aboutreturnitem2" class="labelname">About Return Item 2</label>
+                        </div>
+                    </td>
+                </tr>
+                <th align="left" height="50px" style="vertical-align: bottom;font-family: 'Poppins Medium';color: rgba(0,0,0,0.29);transform: translateY(12px);">Return Item 3</th>
+                <tr>
+                    <td align="left">
+                        <div class="input-box">
+                            <input type="text" id="returnitem3" name="returnitem3" required autocomplete="off" class="logininput">
+                            <label for="returnitem3" class="labelname">Return item name</label>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="left">
+                        <div class="input-box">
+                            <input type="text" id="aboutreturnitem3" name="aboutreturnitem3" autocomplete="off" required class="logininput">
+                            <label for="aboutreturnitem3" class="labelname">About Return Item 3</label>
+                        </div>
+                    </td>
+                </tr>
+                <th align="left" height="50px" style="vertical-align: bottom;font-family: 'Poppins Medium';color: rgba(0,0,0,0.29);transform: translateY(12px);">Final step, add a Image.</th>
+                <tr>
+                    <td align="right">
+                        <img src="" id="uploadingimg">
+                        <lable class="checkupload"></lable>
+                        <input type="file" name="imageFile" id="file-uploader" required class="fileuploadbtn">
+                        <label for="file-uploader" class="upload-label">
+                            Select image
+                            <img src="{% static 'images/upload.svg' %}" id="showprdimg" class="upload-img">
+                        </label>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right" style="vertical-align: bottom;">
+                        <div class="login-btn-box">
+                        <input type="submit" value="ADD PRODUCT" class="product-btn">
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+        <!--start preview-->
+    <script>
+            function readURL(input) {
+              if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function(e) {
+                  $('#uploadingimg').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+              }
+            }
+
+            $("#file-uploader").change(function() {
+              readURL(this);
+            });
+    </script>
+        <!--end preview-->
+        </form>
+</div>
+
+{% endblock %}

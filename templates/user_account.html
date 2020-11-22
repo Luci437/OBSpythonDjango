@@ -1,0 +1,85 @@
+{% extends 'UserMaster.html' %}
+
+{% block headpart %}
+
+{% endblock %}
+
+{% block main_block %}
+    {% load static %}
+    <!--Start user dashboard-->
+    <div class="main-user-dashboard">
+        <h1 class="user-title"><span>{{ current_user_info.f_name }}'s</span> Dashboard</h1><br>
+        {% if current_user_info.about_user %}
+            <h3 class="about-user">{{ current_user_info.about_user }}</h3>
+        {% else %}
+            <h3 class="about-user">Say something about you so that others can understand you.<span>(Edit profile)</span></h3>
+        {% endif %}
+
+        <div class="icon-box">
+
+            <a href="{% url 'viewproduct' %}" class="icons-dashboard-user viewproduct-active">
+                <img src="{% static 'images/bike.svg' %}">
+                PRODUCTS
+            </a>
+
+            <a href="{% url 'addproduct' %}" class="icons-dashboard-user toaddproduct-active">
+                <img src="{% static 'images/plus.svg' %}">
+                ADD PRODUCT
+            </a>
+
+            <a href="{% url 'advertise' %}" class="icons-dashboard-user addads-active">
+                <img src="{% static 'images/speaker.svg' %}">
+                ADVERTISEMENT
+            </a>
+
+            <a href="{% url 'notificationz' %}" class="icons-dashboard-user notification-active">
+                <img src="{% static 'images/chat.svg' %}">
+                NOTIFICATIONS
+                <h5 class="total-items">{{ noticount }}</h5>
+            </a>
+
+            <a href="{% url 'editprofile' %}" class="icons-dashboard-user editprofile-active">
+                <img src="{% static 'images/paper.svg' %}">
+                EDIT PROFILE
+            </a>
+
+            <a href="#" class="icons-dashboard-user-more more-activez" style="min-width: 80px !important;">
+                <img src="{% static 'images/more.svg' %}" onclick="showcatbox();">
+            </a>
+
+            <div class="sub-category-box">
+                <a href="{% url 'showads' %}">
+                    <img src="{% static 'images/speaker.svg' %}">
+                    Advertisement Details
+                </a>
+            </div>
+
+<script>
+    $('.sub-category-box').ready(function(){
+        $('.sub-category-box').hide();
+    });
+function showcatbox() {
+    $('.sub-category-box').toggle("cubic-bezier(.8,.5,.2,1.4)",function () {
+        if($('.more-activez').hasClass('more-active')) {
+            $('.more-activez').removeClass('more-active');
+        }else {
+            $('.more-activez').addClass('more-active');
+        }
+    });
+}
+</script>
+        </div>
+
+        <!--<a href="{% url 'logout' %}" class="logout-btn">Logout</a>-->
+
+        <div class="user-dashboard-content-box">
+            {% block dashboard %}
+
+            {% endblock %}
+        </div>
+    </div>
+
+
+
+    <!--End user dashboard-->
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends 'UserMaster.html' %}
+
+{% block main_block %}
+<div class="login-main-container">
+        <form method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+            <table cellspacing="20">
+                <th>
+                    <h1>Login</h1>
+                    <h3>Once again welcome back to luci</h3>
+                </th>
+                <tr>
+                    <td align="left">
+                        <div class="input-box">
+                            <input type="text" id="username" name="username" autocomplete="off" required class="logininput">
+                            <label for="username" class="labelname">Username or Email</label>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="left">
+                        <div class="input-box">
+                            <input type="password" id="password" name="password" required class="logininput">
+                            <label for="password" class="labelname">Password</label>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="left">
+                        <a href="{% url 'signup' %}" class="linktosingup">I dont' have a account....</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">
+                        <div class="login-btn-box">
+                        <input type="submit" value="LOGIN" name="loginbtn">
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </form>
+</div>
+{% endblock %}

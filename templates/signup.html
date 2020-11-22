@@ -1,0 +1,90 @@
+{% extends 'UserMaster.html' %}
+
+{% block headpart %}
+
+{% endblock %}
+
+{% block main_block %}
+    {% load static %}
+<a class="login-main-container">
+        <form method="post" action="{% url 'signup' %}">
+            {% csrf_token %}
+            <table cellspacing="20">
+                <th>
+                    <h1>SIGN UP</h1>
+                    <h3>Welcome, create account and join our family</h3>
+                </th>
+               <tr>
+                   <td>
+                   <a class="social-box" disabled title="Currently we don't have that.">
+                       <table width="100%" cellspacing="10" disabled style="opacity: 0.1;">
+                           <tr>
+                               <td>
+                                    <a href="#" class="social-panels spgoogle">
+                                        <img src="{% static 'images/google.svg' %}">
+                                        <h2>Google</h2>
+                                    </a>
+                               </td>
+                               <td>
+                                    <a href="#" class="social-panels spfacebook">
+                                        <img src="{% static 'images/facebook.svg' %}">
+                                        <h2>Facebook</h2>
+                                    </a>
+                               </td>
+                               <td>
+                                    <a href="#" class="social-panels sptwitter">
+                                        <img src="{% static 'images/network.svg' %}">
+                                        <h2>Twitter</h2>
+                                    </a>
+                               </td>
+                           </tr>
+                       </table>
+                   </div>
+                   </td>
+               </tr>
+                <tr>
+                    <td>
+                        <h2 style="color: #cccccc;font-family: 'Poppins Light';font-size: 16px;">or</h2>
+                    </td>
+                </tr>
+               <tr>
+                    <td align="left">
+                        <div class="input-box">
+                            <input type="text" id="fname" name="fname" autocomplete="off" required class="logininput">
+                            <label for="fname" class="labelname">Full name</label>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="left">
+                        <div class="input-box">
+                            <input type="text" id="username" name="username" autocomplete="off" required class="logininput">
+                            <label for="username" class="labelname" id="usernamelabel">Username or Email</label>
+                        </div>
+                        <label for="username" id="usernamelabel2" style="font-family: 'Poppins Light';font-size: 12px;color: #3ECF87;position: absolute;"></label>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="left">
+                        <div class="input-box">
+                            <input type="password" id="password" name="password" required class="logininput">
+                            <label for="password" class="labelname">Password</label>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="left">
+                        <a href="{% url 'login' %}" class="linktosingup">I have an account....</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">
+                        <div class="login-btn-box">
+                        <input type="submit" value="CREATE ACCOUNT" name="loginbtn" id="usernamesubmit">
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </form>
+</div>
+{% endblock %}

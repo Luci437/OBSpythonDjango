@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUCI | Games</title>
+    <link href="{% static 'css/game1.css' %}" rel="stylesheet" type="text/css">
+</head>
+<body>
+
+
+
+<div class="main-cotainer">
+<div id="anima"></div>
+    <div class="title-container">
+        <a href="{% url 'allgames' %}">LUCI</a><h5>Games</h5>
+    </div>
+{% for qs in qst %}
+    <div class="game-container">
+
+        <div class="game-screen">
+            <h2 id="question">{{ qs.question }}</h2>
+
+            <h1 class="timer" style="position: absolute;rigth: 10px;top: 10px;font-family: Poppins;font-weight: bold;color: #333;">30</h1>
+
+        </div>
+        <div class="option-screen">
+
+            <div class="answer-tube">
+                <div class="tube"></div>
+            </div>
+
+                {% csrf_token %}
+                <input type="hidden" value="{{ qs.id }}" id="qstid" name="qstid">
+                <div class="topfirst optionscommon">
+                    <input type="radio" id="ans{{ forloop.counter }}a" name="answer" class="answers" value="{{ qs.option1 }}" onclick="getanswerfromyou('{{ qs.option1 }}')"><label for="ans{{ forloop.counter }}a" class="op1">{{ qs.option1 }}</label>
+                </div>
+                <div class="topright optionscommon">
+                    <input type="radio" id="ans{{ forloop.counter }}b" name="answer" class="answers" value="{{ qs.option2 }}" onclick="getanswerfromyou('{{ qs.option2 }}')"><label for="ans{{ forloop.counter }}b" class="op2">{{ qs.option2 }}</label>
+                </div>
+                <div class="bottomfirst optionscommon">
+                    <input type="radio" id="ans{{ forloop.counter }}c" name="answer" class="answers" value="{{ qs.option3 }}" onclick="getanswerfromyou('{{ qs.option3 }}')"><label for="ans{{ forloop.counter }}c" class="op3">{{ qs.option3 }}</label>
+                </div>
+                <div class="bottomright optionscommon">
+                    <input type="radio" id="ans{{ forloop.counter }}d" name="answer" class="answers" value="{{ qs.option4 }}" onclick="getanswerfromyou('{{ qs.option4 }}')"><label for="ans{{ forloop.counter }}d" class="op4">{{ qs.option4 }}</label>
+                </div>
+                <input type="hidden" value="{{ qs.answer }}" class="correctanswer">
+        </div>
+
+    </div>
+{% endfor %}
+
+
+</div>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script src="{% static 'javascript/game1.js' %}"></script>
+<script src="{% static 'javascript/bodymovin.js' %}"></script>
+</html>

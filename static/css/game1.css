@@ -1,0 +1,132 @@
+* {
+    margin: 0px;
+    padding: 0px;
+    font-family: Roboto, sans-serif;
+    text-decoration: none;
+}
+body {
+    width: 100%;
+    min-height: 100vh;
+}
+.main-cotainer {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    background: linear-gradient(#F4F4F4,#ECECEC);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.title-container {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    padding: 20px;
+    display: flex;
+}
+.title-container a {
+    font-family: Poppins;
+    font-weight: bold;
+    font-size: 30px;
+    letter-spacing: 5px;
+    color: #333;
+    text-shadow: 0 1px 0px #fff;
+}
+.title-container h5 {
+    font-family: "Metro Skies";
+    letter-spacing: 1px;
+    transform: translateY(19px);
+    color: rgba(0,0,0,0.56);
+}
+.game-container {
+    position: absolute;
+    width: 70%;
+    background: #fff;
+    border-radius: 5px;
+    overflow: hidden;
+}
+.game-screen {
+    height: 40vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.game-screen h2 {
+    font-family: "Poppins Light";
+    font-size: 2vw;
+    color: #333;
+}
+.option-screen {
+    position: relative;
+    width: 100%;
+    height: 30vh;
+    background: #4D4D4D;
+    display: flex;
+    flex-wrap: wrap;
+    border-radius: 20px 20px 0px 0px;
+    box-shadow: 0 -10px 30px rgba(0,0,0,0.05);
+}
+.optionscommon {
+    width: 50%;
+    height: 15vh;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.optionscommon input {
+    display: none;
+}
+.optionscommon label {
+    padding: 10px 30px;
+    min-width: 150px;
+    max-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-family: Poppins;
+    font-size: 20px;
+    font-weight: bold;
+    background: linear-gradient(to top, #333,#444444);
+    text-align: center;
+    border-radius: 5px;
+    color: rgba(255,255,255,0.55);
+    box-shadow: 2px 2px 2px rgba(255,255,255,0.15) inset, -10px -10px 10px rgba(255,255,255,0.1), 10px 10px 10px rgba(0,0,0,0.2);
+    cursor: pointer;
+    text-transform: capitalize;
+    transition: 0.1s ease-in-out;
+}
+.optionscommon label:hover {
+    color: rgba(0,0,0,0.69);
+    background: linear-gradient(to top,#fff87f,#ffe46e);
+    box-shadow: -2px -2px 5px #fcff6d inset, 5px 5px 10px #ffbe42 inset, 0 20px 10px rgba(0,0,0,0.2);
+    white-space: normal;
+    text-overflow: unset;
+}
+.optionscommon option[type=radio]:checked {
+    background: linear-gradient(to top, #d8ff7e,#9df16d);
+}
+.answer-tube {
+    position: absolute;
+    width: 16px;
+    height: 90%;
+    border-radius: 10px;
+    background: #333;
+    right: 20px;
+    top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.tube {
+    width: 8px;
+    height: 90%;
+    background: rgba(178,178,178,0.7);
+    border-radius: 10px;
+}
+#anima {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+}

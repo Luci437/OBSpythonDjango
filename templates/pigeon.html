@@ -1,0 +1,233 @@
+{% extends 'UserMaster.html' %}
+
+{% block main_block %}
+    {% load static %}
+
+    <div class="deal-box-container">
+        <div class="deal-box">
+            <table width="100%">
+                <tr>
+                    <th style="font-family: 'Poppins Medium';font-size: 17px;color: rgba(255,255,255,0.86);letter-spacing: 0.5px;">
+                        READY TO TRADE
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                        <table cellspacing="10">
+                            <tr>
+                                <td rowspan="2">
+                                    <div class="requested-prd-img">
+                                        <img src="{{ prd.productimage.url }}">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="max-width: 400px;padding: 5px;box-sizing: border-box;display: flex;justify-content: center;">
+                                    <p style="font-family: 'Poppins Medium';line-height: 1.6;font-size: 12px;color: #737FA4;">
+                                        So, <b style="color: #9fbad0;font-family: Poppins;padding: 5px;">{{ current_user_info.f_name }}</b>, you are ready to trade with our trader <b style="color: #9fbad0;font-family: Poppins;padding: 5px;">{{ prd.user_id.username }}</b>. And
+                                    also you are satisfied with the l-coins({{ prd.lcoin }}) provided.</p>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td height="60px;" style="vertical-align: center;">
+                        <div class="info-boxs">
+                            <h4 class="inf-boxs-h4 prd">Trading item is {{ prd.productname }}</h4>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td height="60px;" style="vertical-align: center;">
+                        <div class="info-boxs">
+                            <h4 class="inf-boxs-h4 lcoin">Total L-coins you will get are {{ prd.lcoin }}</h4>
+                        </div>
+                    </td>
+                </tr>
+                 <tr>
+                        <td>
+                            <h6 style="font-family: 'Poppins Light';color: rgba(255,255,255,0.18);padding: 10px;">And what are you exchainging with?</h6>
+                        </td>
+                 </tr>
+                <tr>
+                    <form method="post" action="{% url 'requested' %}">
+                    <td>
+                        <div class="return-items-info-box">
+                            <input type="radio" value="{{ returns.ret1name }}" id="rt1" name="returnitem" required>
+                            <label for="rt1">{{ returns.ret1name }}</label>
+
+                            <input type="radio" value="{{ returns.ret2name }}" id="rt2" name="returnitem" required>
+                            <label for="rt2">{{ returns.ret2name }}</label>
+
+                            <input type="radio" value="{{ returns.ret3name }}" id="rt3" name="returnitem" required>
+                            <label for="rt3">{{ returns.ret3name }}</label>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h6 style="font-family: 'Poppins Light';color: rgba(255,255,255,0.08);">* By clicking Send Request you are agreeing to our Policy and Privacy.</h6>
+                    </td>
+                </tr>
+                <tr align="right">
+                        {% csrf_token %}
+                    <td style="height: 70px;vertical-align: bottom;">
+                        <input type="hidden" value="{{ prd.id }}" name="productid">
+                        <button class="requstbtns cancel" onclick="closerequestwindow()">Cancel</button>
+                        <button class="requstbtns submitreqst" type="submit">Send Request</button>
+                    </td>
+                    </form>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function(){
+            $('.deal-box-container').hide();
+        });
+
+        function showdealbox() {
+            $('.deal-box-container').show();
+        }
+
+        function closerequestwindow() {
+            $('.deal-box-container').hide();
+        }
+
+    </script>
+
+<div class="chat-main-container">
+    <div class="all-chat-box">
+        <table cellspacing="10" style="width: 100%;position: relative;">
+            <tr style="height: 40px;vertical-align: top;">
+                <th style="font-family: 'Poppins Medium';opacity: 0.5;font-size: 13px;"><img src="{% static 'images/bird.svg' %}" style="width: 25px;padding-right: 5px;">Chat list</th>
+            </tr>
+            <tr>
+                <td>
+                    <div class="all-chat-list">
+                        <table>
+                            <tr>
+                                <td rowspan="2">
+                                    <img src="{% static 'images/devilface.svg' %}">
+                                </td>
+                                <td>
+                                    <h5>{{ receverinfo.f_name }}</h5>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h6>@{{ receverinfo.login_id.username }}</h6>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+            </tr>
+            <tr align="left" style="height: 100px;vertical-align: bottom;">
+                <th style="font-family: 'Poppins Medium';color:rgba(0,0,0,0.32);font-size: 13px;">Previous Chats</th>
+            </tr>
+            <tr>
+                <td>
+                    <a href="#">
+                    <div class="all-chat-list2">
+                        <table>
+                            <tr>
+                                <td rowspan="2">
+                                    <img src="{% static 'images/devilface2.svg' %}">
+                                </td>
+                                <td>
+                                    <h5>_____</h5>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h6>@---.com</h6>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    </a>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="chat-area-box">
+        <div class="chat-area-top">
+            {% for chat in chats %}
+                <div class="yourmessage">
+                    <h5>{{ chat.chatmessage }}</h5>
+                </div>
+            {% endfor %}
+            <script>
+                    var chatlist = document.getElementsByClassName('chat-area-top');
+                    chatlist[0].scrollTop = chatlist[0].scrollHeight;
+            </script>
+        </div>
+        <div class="chat-area-bottom">
+            <form id="chat-form" method="post" action="{% url 'pigeon' %}">
+            {% csrf_token %}
+                <img src="{% static 'images/speak.svg' %}" class="chat-type-img">
+                <input type="text" name="message" id="chat-msg" autocomplete="off" autofocus required>
+                <input type="hidden" name="productid" value="{{ prd.id }}">
+                <input type="hidden" id="receiverid" name="receiverid" value="{{ prd.user_id_id }}">
+                <button><img src="{% static 'images/attach.svg' %}" class="document-attach-img"></button>
+                <button type="submit" id="chat-sendbtn"><img src="{% static 'images/black paper plane.svg' %}" class="send-img"></button>
+            </form>
+        </div>
+    </div>
+    <div class="chat-agreement-box">
+        <table cellspacing="10" style="width: 100%;position: relative;">
+            <tr>
+                <th style="font-family: 'Poppins Medium';opacity: 0.5;font-size: 13px;">Product Details</th>
+            </tr>
+            <tr align="center">
+                <td style="position: relative;">
+                    <div style="width: 250px;height: 180px;background: #fff;border-radius: 10px;box-shadow: 0 20px 30px rgba(0,0,0,0.1);position: relative;">
+                        <img src="{{ prd.productimage.url }}" style="padding: 10px;max-width: 100%;max-height: 100%;box-sizing: border-box;border-radius: inherit;">
+                    </div>
+                </td>
+            </tr>
+            <tr align="center">
+                <td style="display: flex;justify-content: center;">
+                    <h5 style="font-family: 'Poppins Medium';color: rgba(0,0,0,0.3);text-shadow: 0 1px 0px rgba(255,255,255,1);">{{ prd.productname }}</h5><h4 class="chat-lcoin">{{ prd.lcoin }}</h4>
+                </td>
+            </tr>
+            <tr align="center" style="height: 150px;vertical-align: bottom;">
+                <td>
+                    {% if responded %}
+                        <h5 style=" font-family: 'Poppins Light';font-size: 12px;color: rgba(0,0,0,0.3);box-sizing: border-box;padding: 10px;">Trader Responded to your Request Please go and Check your Notification.</h5>
+                    {% else %}
+                        {% if not alreadyrequest %}
+                        <a href="#" class="agreement-btn" id="fix-trade" onclick="showdealbox();">
+                            Fix Trade
+                        </a>
+                        {% else %}
+                        <a href="#" class="agreement-btn" id="fix-trade">
+                            Requested...
+                        </a>
+                        {% endif %}
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h6 style="color: rgba(0,0,0,0.22);font-family: 'Poppins Light';padding-top: 20px;">* So by clicking the Fix Trade, you are agreeing with the trader to trade with the item you have and also lcoins provided.</h6>
+                </td>
+            </tr>
+        </table>
+    </div>
+<!--    <div class="msg-box">
+        <ul id="msg-list">
+            <li>Start message</li>
+        </ul>
+    </div>
+
+
+-->
+</div>
+{% endblock %}

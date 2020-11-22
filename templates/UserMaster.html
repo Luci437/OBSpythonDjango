@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUCI</title>
+    <link rel="stylesheet" href="{% static 'css/usercss.css' %}">
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+    {% block headpart %}
+
+    {% endblock %}
+</head>
+<body>
+{% if messages %}
+    {% for message in messages %}
+        <script>M.toast({html: "{{ message }}", classes: 'show-message', displayLength: 5000})</script>
+    {% endfor %}
+{% endif %}
+<!-- Start of Head Area -->
+<div class="head-area">
+
+    <a href="{% url 'index' %}" class="main-title">LUCI</a>
+
+    <div class="search-box">
+        <form method="post" action="{% url 'searchs' %}">
+            {% csrf_token %}
+            <img src="{% static 'images/search.svg' %}">
+            <input type="text" name="search" autocomplete="off" placeholder="Search for anything to Trade">
+        </form>
+    </div>
+
+    <div class="logo-boxs">
+        <a href="{% url 'viewproduct' %}" title="User Account">
+            <img src="{% static 'images/man.svg' %}" width="25px" style="border-radius: 10px;">
+            {% if request.session.user_id %}
+            <h6 class="main-coin-count">{{ mucoin }}</h6>
+            {% endif %}
+        </a>
+        {% if request.session.user_id %}
+        <a href="#" title="Messages" id="messagebtn">
+            <img src="{% static 'images/comment.svg' %}" width="25px">
+        </a>
+        <a href="#" title="Favourites" id="favshowbtn">
+            <img src="{% static 'images/mainheart.svg' %}" width="25px">
+        </a>
+        {% endif %}
+        {% if request.session.user_id %}
+        <a href="{% url 'logout' %}" class="logout-btn" title="Tata bye bye">
+            <img src="{% static 'images/power2.svg' %}" width="25px">
+        </a>
+        {% endif %}
+    </div>
+
+    <div class="fav-item-box">
+        {% if favitem %}
+            <h6 class="fav-box-title">Your Favourite Items</h6>
+        {% for f in fav %}
+        {% for fav in favitem %}
+                {% if f.id == fav.prd_id_id %}
+                    <a href="{% url 'viewmainproduct' f.id %}">
+                        <img src="{% static 'images/arrows.svg' %}" style="width: 15px;opacity: 0.2;position: absolute;left: 15px;top: 13px;">
+                        {{ f.productname }}
+                    </a>
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+    {% else %}
+            <h2 class="empty-fav">No favourite list.</h2>
+    {% endif %}
+    </div>
+
+    <div class="chat-message-list-box">
+
+        <table cellspacing="5" style="">
+        {% if chatlist %}
+            {% for chatz in chatlist %}
+            <tr>
+                <td>
+                    <a href="{% url 'pigeonshow' chatz.product_id_id %}">
+                    <table style="padding-right: 100px;">
+                        <tr>
+                            <td rowspan="2" align="right">
+                                <img src="{% static 'images/devilface.svg' %}" style="width: 30px;">
+                            </td>
+                            <td>
+                                <h5 style="font-family: 'Poppins Medium';color: rgba(0,0,0,0.58);">{{ chatz.participant1.f_name }}</h5>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td>
+                            <h6 style="font-family: 'Poppins Light';color: rgba(0,0,0,0.28);transform: translateY(-8px);">@{{ chatz.participant2.f_name }}</h6>
+                        </td>
+                    </tr>
+                    </table>
+                        </a>
+                </td>
+            </tr>
+            {% endfor %}
+            {% else %}
+            <h5 class="nomessagelabel">Sorry No Messages.</h5>
+        {% endif %}
+        </table>
+    </div>
+
+</div>
+<!-- End of Head Area -->
+
+<div class="error-msg-box">
+    {% if error_msg %}
+        <h3>{{ error_msg }}</h3>
+    {% endif %}
+</div>
+
+<script>
+    $(document).ready(function(){
+        $('.fav-item-box').hide();
+        $('.chat-message-list-box').hide();
+    });
+    $('#favshowbtn').on('click',function(){
+        $('.fav-item-box').toggle(120);
+        $('.chat-message-list-box').hide();
+    });
+    $('#messagebtn').on('click',function(){
+        $('.chat-message-list-box').toggle(120);
+        $('.fav-item-box').hide();
+    });
+</script>
+
+{% block main_block %}
+
+
+{% endblock %}
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script src="{% static 'javascript/pigeon.js' %}"></script>
+</html>

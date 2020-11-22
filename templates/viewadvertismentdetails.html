@@ -1,0 +1,91 @@
+{% extends 'user_account.html' %}
+
+{% block headpart %}
+    <style>
+        .ad-container {
+            width: 100%;
+            position: relative;
+            padding: 10px;
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .sub-ad-box {
+            position: relative;
+            width: 30%;
+            height: 130px;
+            padding: 10px;
+            box-sizing: border-box;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            margin-right: 20px;
+            overflow: hidden;
+            box-shadow: 5px 5px 5px rgba(0,0,0,0.1),-5px -5px 5px #ffffff;
+        }
+    .ad-status h1 {
+        color: #fff;
+    }
+    .ad-status h4 {
+        color: #fff;
+    }
+    .ad-status {
+        position: relative;
+        top: 0;
+        right: 0;
+        backdrop-filter: blur(10px);
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        padding: 10px;
+        background: rgba(0,0,0,0.26);
+        transition: 0.5s ease;
+    }
+    .ad-status h5 {
+        color: #fff;
+    }
+    .ad-img-view {
+        position: absolute;
+        width: 100%;
+        left: 0;
+        top: 0;
+    }
+    .sub-ad-box:hover .ad-status {
+        opacity: 0;
+        backdrop-filter: blur(0px);
+    }
+    .action-buttons {
+        position: absolute;
+        top: 10%;
+        right: 10%;
+        background: #000;
+        color: #fff;
+        padding: 5px 10px;
+        border-radius: 3px;
+    }
+    </style>
+{% endblock %}
+
+{% block dashboard %}
+
+    <div class="ad-container">
+    {% for ad in ads %}
+        <div class="sub-ad-box">
+            <img src="{{ ad.adsimage.url}}" class="ad-img-view">
+            <span class="ad-status">
+                        <h1>{{ ad.product.productname }}</h1>
+                {% if ad.isactive %}
+                    <h5>Status: Active</h5>
+                {% else %}
+                    <h5>Status: Inactive</h5>
+                {% endif %}
+                <h5 style="padding-top: 20px;">Exp date: {{ ad.endingdate }}</h5>
+            </span>
+            {% if ad.isactive %}
+                <a href="{% url 'pauseadd' ad.id %}" class="action-buttons">&#8545;Pause</a>
+            {% else %}
+                    <a href="{% url 'resumeads' ad.id %}" class="action-buttons">&#10148;Resume</a>
+            {% endif %}
+        </div>
+    {% endfor %}
+    </div>
+
+{% endblock %}
